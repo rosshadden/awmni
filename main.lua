@@ -39,7 +39,6 @@ local function menuFactory(...)
 		menu.open = function(self)
 			local actions = _.keys(self.actions)
 			awmni.prompt(actions, function(choice)
-				log(choice)
 			end)
 		end
 
