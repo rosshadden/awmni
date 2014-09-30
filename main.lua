@@ -10,12 +10,13 @@ local function menuFactory(...)
 	local menu = {
 		name = 'awmni',
 		actions = {},
-		handler = function() end
+		-- handler = function() end
 	}
 
 	local args = {...}
 	for a,arg in ipairs(args) do
 		local argType = type(arg)
+
 		if argType == 'string' then
 			menu.name = arg
 		elseif argType == 'table' then
@@ -37,8 +38,19 @@ local function menuFactory(...)
 		end
 
 		menu.open = function(self)
-			local actions = _.keys(self.actions)
-			awmni.prompt(actions, function(choice)
+			local choices = _.keys(self.actions)
+			awmni.prompt(choices, function(choice)
+				local action = self.actions[choice]
+
+				if type(action) == 'table' then
+					if action.handler then
+						action.handler()
+					else
+						action:open()
+					end
+				elseif type(action) == 'function' then
+					action()
+				end
 			end)
 		end
 

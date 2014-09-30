@@ -4,8 +4,7 @@ local awmni = require('awmni/main')
 --
 
 
-awmni:register('run', {
-	test = function()
-		log('hi')
-	end
-})
+awmni:register('run', function()
+	local cmd = 'rofi -show run'
+	return util.run(cmd)
+end)
